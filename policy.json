@@ -1,0 +1,38 @@
+{
+    "Version": "2012-10-17",
+    "Id": "maven.mantaro.site bucket policy",
+    "Statement": [
+        {
+            "Sid": "Allow anonymous users to get objects",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": [
+                "s3:GetObject"
+            ],
+            "Resource": "maven/*"
+        },
+        {
+            "Sid": "Allow com/github/natanbc write access",
+            "Effect": "Allow",
+            "Principal": {
+                "SCW": "project_id:7e16e6b7-61cc-4ac0-ab5c-b98a06f38718"
+            },
+            "Action": [
+                "s3:PutObject"
+            ],
+            "Resource": "maven/releases/com/github/natanbc/*"
+        },
+        {
+            "Sid": "Allow net/kodehawa write access",
+            "Effect": "Allow",
+            "Principal": {
+                "SCW": "project_id:8a7f8aac-3d94-4e00-9cb3-497078e4c81f"
+            },
+            "Action": [
+                "s3:PutObject"
+            ],
+            "Resource": "maven/releases/net/kodehawa/*"
+        }
+    ]
+}
+
