@@ -1,0 +1,30 @@
+def prop(name) {
+    return findProperty(name) ?: System.getenv(name)
+}
+//gradle tm
+if(prop("s3Endpoint") != null) {
+    System.setProperty("org.gradle.s3.endpoint", prop("s3Endpoint"))
+}
+publishing {
+    publications {
+        Release(MavenPublication) {
+            from components.java
+            groupId project.group
+            artifactId project.name
+            version version
+
+            repositories {
+                maven {
+                    url "s3://${prop("s3Bucket")}/releases"
+                    credentials(AwsCredentials) {
+                        accessKey prop("s3AccessKey") ?: ""
+                        secretKey prop("s3SecretKey") ?: ""
+                    }
+                }
+            }
+        }
+    }
+}
+publishReleasePublicationToMavenRepository.onlyIf {
+    prop("s3AccessKey") != null && prop("s3SecretKey") != null && prop("s3Bucket") != null
+}
