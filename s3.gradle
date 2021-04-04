@@ -1,3 +1,5 @@
+apply plugin: "maven-publish"
+
 def prop(name) {
     return findProperty(name) ?: System.getenv(name)
 }
@@ -28,3 +30,4 @@ publishing {
 publishReleasePublicationToMavenRepository.onlyIf {
     prop("s3AccessKey") != null && prop("s3SecretKey") != null && prop("s3Bucket") != null
 }
+
